@@ -1,0 +1,167 @@
+High-level architecture for BFSI “Intent Firewall” (Loan Application)
+Here’s a clear, component‑level view you can turn into a diagram in Draw.io, Miro, Lucidchart, etc.
+
+1. Components
+Client layer
+
+Mobile/Web App
+
+Loan application UI (forms, document upload, free‑text fields).
+
+Edge & access layer
+
+API Gateway / Load Balancer
+
+Handles routing, auth, TLS termination.
+
+Forwards loan‑related traffic to the AI Intent Firewall Sidecar instead of directly to core services.
+
+AI intent firewall layer (your product)
+
+AI Sidecar Service
+
+Receives the full loan application request (metadata + payload).
+
+Calls internal services and AI models to evaluate risk and intent.
+
+Feature & Context Enrichment Service
+
+Fetches:
+
+User profile
+
+Device fingerprint
+
+Geo/IP info
+
+Historical behavior (past loans, rejections, fraud flags)
+
+Builds a context object for AI.
+
+AI Risk & Intent Engine
+
+Uses LLM + rules + anomaly detection to produce:
+
+risk_score
+
+intent (e.g., “genuine”, “possible fraud”, “synthetic identity”)
+
+action (ALLOW / BLOCK / ESCALATE / CHALLENGE)
+
+reason (explainability).
+
+Policy Decision Point (PDP)
+
+Applies bank‑defined policies on top of AI output.
+
+Final decision: what to do with this request.
+
+Policy Enforcement Point (PEP)
+
+Enforces decision:
+
+Forward to core loan service
+
+Return error/denial
+
+Trigger extra verification
+
+Route to manual review.
+
+Core banking & loan layer
+
+Loan Origination Microservice
+
+Normal loan processing logic (scoring, eligibility, workflow).
+
+KYC/AML Systems
+
+Existing identity and compliance checks.
+
+Core Banking System
+
+Accounts, balances, existing loans, etc.
+
+Support systems
+
+Fraud & Risk Analytics
+
+Receives logs and decisions for offline analysis.
+
+Monitoring & Logging
+
+Observability for AI sidecar + loan flow.
+
+Model Management
+
+Versioning, A/B testing, monitoring of AI models.
+
+2. Request flow (step by step)
+User submits loan application  
+Mobile/Web App → POST /loan/apply.
+
+API Gateway receives request
+
+Authenticates user.
+
+Routes loan traffic to AI Intent Firewall Sidecar.
+
+AI Sidecar ingests request
+
+Parses payload (form fields, free text, metadata).
+
+Context enrichment
+
+Sidecar calls:
+
+User profile service
+
+Device/geo service
+
+Historical behavior service
+
+KYC/AML flags
+
+Builds a rich context object.
+
+AI risk & intent evaluation
+
+Context + payload → AI Risk & Intent Engine.
+
+Engine returns:
+
+risk_score, intent, reason, recommended_action.
+
+Policy decision
+
+PDP applies bank policies:
+
+Example:
+
+If risk_score < 40 → ALLOW
+
+If 40–80 → ESCALATE
+
+If > 80 → BLOCK
+
+Policy enforcement
+
+If ALLOW → forward original request to Loan Origination Microservice.
+
+If ESCALATE → route to manual review queue / trigger extra KYC.
+
+If BLOCK → return denial response to client with generic message.
+
+Core loan processing
+
+Loan Origination Microservice runs as usual (no change in its code).
+
+Downstream calls to KYC, credit bureau, core banking, etc.
+
+Logging & analytics
+
+AI decision + context + outcome logged to:
+
+Fraud/Risk Analytics
+
+Monitoring/observability stack.
