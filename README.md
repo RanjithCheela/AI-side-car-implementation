@@ -57,7 +57,7 @@ Recommended actions
 •	Block
 •	Escalate to manual review
 •	Request additional verification (video KYC, document re-upload)
-Why BFSI loves this
+Focal areas of work:
 •	Reduces fraud losses
 •	Improves regulatory compliance
 •	Adds AI governance without rewriting core banking systems
