@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; padding: 20px; }
+  .container { max-width: 600px; margin: auto; background: white; border-radius: 8px; overflow: hidden; }
+  .header { background: #8e44ad; color: white; padding: 24px 32px; }
+  .header h1 { margin: 0; font-size: 20px; }
+  .body { padding: 32px; color: #444; line-height: 1.6; }
+  .action-box { background: #f5eeff; border: 2px solid #8e44ad; border-radius: 8px; padding: 20px; margin: 20px 0; text-align: center; }
+  .action-box h2 { color: #8e44ad; margin: 0 0 8px; }
+  .action-box p { margin: 0; font-size: 14px; color: #666; }
+  .verify-btn { display: inline-block; background: #8e44ad; color: white; padding: 14px 32px; border-radius: 6px; text-decoration: none; font-weight: bold; margin-top: 16px; }
+  .deadline-box { background: #fef9e7; border: 1px solid #f1c40f; border-radius: 6px; padding: 12px 16px; margin: 20px 0; }
+  .ref-box { background: #f5f5f5; border-radius: 6px; padding: 12px 20px; font-family: monospace; color: #333; margin: 16px 0; }
+  .footer { background: #f9f9f9; padding: 20px 32px; font-size: 12px; color: #999; border-top: 1px solid #eee; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header"><h1>Action Required: Identity Verification</h1></div>
+  <div class="body">
+    <p>Dear <strong th:text="${applicantName}"></strong>,</p>
+    <p>Your loan application is progressing well! To complete our security verification process, we need you to verify your identity.</p>
+    <div class="action-box">
+      <h2>Verification Required</h2>
+      <p>Method: <strong th:text="${verificationType != null ? verificationType.toUpperCase().replace('_', ' ') : 'IDENTITY VERIFICATION'}"></strong></p>
+      <a href="#" class="verify-btn">Complete Verification Now</a>
+    </div>
+    <div class="ref-box">Application Reference: <strong th:text="${applicationId}"></strong></div>
+    <div class="deadline-box">
+      <strong>Important:</strong> Please complete verification within <strong>72 hours</strong>.
+      Your application will be auto-closed if not completed within this window.
+    </div>
+    <p>This is a standard security step to protect your identity and ensure the safety of your application.</p>
+    <p>Sincerely,<br><strong>Loan Verification Team</strong></p>
+  </div>
+  <div class="footer">Do not share your verification link. Contact support@yourbank.com if you did not apply.</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; padding: 20px; }
+  .container { max-width: 600px; margin: auto; background: white; border-radius: 8px; overflow: hidden; }
+  .header { background: #27ae60; color: white; padding: 24px 32px; }
+  .header h1 { margin: 0; font-size: 20px; }
+  .body { padding: 32px; color: #444; line-height: 1.6; }
+  .success-box { background: #eafaf1; border: 1px solid #27ae60; border-radius: 8px; padding: 20px; margin: 20px 0; text-align: center; }
+  .success-box h2 { color: #27ae60; margin: 0 0 8px; font-size: 24px; }
+  .amount { font-size: 32px; font-weight: bold; color: #27ae60; }
+  .timeline { background: #f9f9f9; border-radius: 6px; padding: 16px; margin: 20px 0; }
+  .timeline h3 { margin: 0 0 12px; font-size: 14px; color: #333; }
+  .step { display: flex; align-items: flex-start; margin-bottom: 10px; }
+  .step-dot { width: 20px; height: 20px; background: #27ae60; border-radius: 50%; flex-shrink: 0; margin-right: 12px; margin-top: 2px; }
+  .ref-box { background: #f5f5f5; border-radius: 6px; padding: 12px 20px; font-family: monospace; color: #333; margin: 16px 0; }
+  .footer { background: #f9f9f9; padding: 20px 32px; font-size: 12px; color: #999; border-top: 1px solid #eee; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header"><h1>Your Loan Application is Approved!</h1></div>
+  <div class="body">
+    <p>Dear <strong th:text="${applicantName}"></strong>,</p>
+    <p>We are pleased to inform you that your loan application has been approved and is now being processed.</p>
+    <div class="success-box">
+      <h2>Approved Loan Amount</h2>
+      <div class="amount" th:text="${loanAmount}"></div>
+    </div>
+    <div class="ref-box">Reference Number: <strong th:text="${applicationId}"></strong></div>
+    <div class="timeline">
+      <h3>What Happens Next</h3>
+      <div class="step"><div class="step-dot"></div><div>Loan offer details sent to your registered email within 2 hours</div></div>
+      <div class="step"><div class="step-dot"></div><div>eSign your loan agreement digitally</div></div>
+      <div class="step"><div class="step-dot"></div><div>Funds disbursed to your bank account within 1-2 business days</div></div>
+    </div>
+    <p>Thank you for choosing us for your financial needs.</p>
+    <p>Sincerely,<br><strong>Loan Services Team</strong></p>
+  </div>
+  <div class="footer">This is an automated notification. Contact support@yourbank.com for queries.</div>
+</div>
+</body>
+</html>

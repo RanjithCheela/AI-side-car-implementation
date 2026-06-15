@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; padding: 20px; }
+  .container { max-width: 700px; margin: auto; background: white; border-radius: 8px; overflow: hidden; }
+  .header { background: #e67e22; color: white; padding: 24px 32px; }
+  .header h1 { margin: 0; font-size: 22px; }
+  .badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; font-size: 13px; margin-top: 8px; }
+  .body { padding: 32px; }
+  .alert-box { background: #fef9e7; border: 1px solid #f39c12; border-radius: 6px; padding: 16px; margin-bottom: 24px; }
+  .alert-box p { margin: 0; color: #7d6608; font-weight: bold; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .field .label { font-size: 12px; color: #666; text-transform: uppercase; }
+  .field .value { font-size: 15px; color: #222; font-weight: 600; margin-top: 2px; }
+  .risk-meter { background: linear-gradient(to right, #27ae60, #f39c12, #e74c3c); height: 8px; border-radius: 4px; margin: 12px 0; }
+  .indicators { background: #fff9f0; border-left: 4px solid #e67e22; padding: 16px; margin: 20px 0; border-radius: 0 6px 6px 0; }
+  .indicators h3 { margin: 0 0 10px; color: #e67e22; font-size: 14px; }
+  .indicators li { color: #555; font-size: 14px; margin-bottom: 6px; }
+  .action-required { background: #e67e22; color: white; padding: 16px; border-radius: 6px; text-align: center; margin-top: 24px; }
+  .footer { background: #f9f9f9; padding: 20px 32px; font-size: 12px; color: #999; border-top: 1px solid #eee; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>ACTION REQUIRED — Application Escalated for Review</h1>
+    <span class="badge">Fraud Analyst Assignment</span>
+  </div>
+  <div class="body">
+    <div class="alert-box">
+      <p>This loan application has been flagged by the AI Intent Firewall and requires MANUAL REVIEW within 48 hours.</p>
+    </div>
+    <div class="grid">
+      <div class="field"><div class="label">Application ID</div><div class="value" th:text="${applicationId}"></div></div>
+      <div class="field"><div class="label">Submitted</div><div class="value" th:text="${timestamp}"></div></div>
+      <div class="field"><div class="label">Applicant</div><div class="value" th:text="${applicantName}"></div></div>
+      <div class="field"><div class="label">Loan Amount</div><div class="value" th:text="${loanAmount}"></div></div>
+      <div class="field"><div class="label">Detected Intent</div><div class="value" th:text="${intent}"></div></div>
+      <div class="field"><div class="label">AI Risk Score</div><div class="value" th:text="${riskScore + ' / 100 (' + riskLevel + ')'}"></div></div>
+      <div class="field"><div class="label">Policy Rule</div><div class="value" th:text="${policyRule}"></div></div>
+      <div class="field"><div class="label">Manual Review</div><div class="value">YES — Required</div></div>
+    </div>
+    <div class="indicators">
+      <h3>Fraud Indicators Identified</h3>
+      <ul>
+        <li th:each="indicator : ${fraudIndicators}" th:text="${indicator}"></li>
+      </ul>
+    </div>
+    <div class="field"><div class="label">AI Decision Reason</div><div class="value" th:text="${reason}" style="font-weight:normal;color:#444;font-size:14px;line-height:1.5;"></div></div>
+    <div class="action-required">
+      Please review this application in the Fraud Management Portal within 48 hours and take appropriate action.
+    </div>
+  </div>
+  <div class="footer">BFSI Intent Firewall &bull; Automated Escalation Alert &bull; Do not reply</div>
+</div>
+</body>
+</html>

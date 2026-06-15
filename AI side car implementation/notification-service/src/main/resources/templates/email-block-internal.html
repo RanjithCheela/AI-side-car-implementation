@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; padding: 20px; }
+  .container { max-width: 700px; margin: auto; background: white; border-radius: 8px; overflow: hidden; }
+  .header { background: #c0392b; color: white; padding: 24px 32px; }
+  .header h1 { margin: 0; font-size: 22px; }
+  .badge { display: inline-block; background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; font-size: 13px; margin-top: 8px; }
+  .body { padding: 32px; }
+  .field { margin-bottom: 16px; }
+  .label { font-size: 12px; color: #666; text-transform: uppercase; letter-spacing: 0.5px; }
+  .value { font-size: 15px; color: #222; font-weight: 600; margin-top: 2px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+  .risk-box { background: #fdf2f2; border: 1px solid #e74c3c; border-radius: 6px; padding: 16px; text-align: center; }
+  .risk-score { font-size: 48px; font-weight: bold; color: #c0392b; }
+  .indicators { background: #fff9f9; border-left: 4px solid #e74c3c; padding: 16px; margin: 24px 0; border-radius: 0 6px 6px 0; }
+  .indicators h3 { margin: 0 0 12px; color: #c0392b; font-size: 14px; }
+  .indicators ul { margin: 0; padding-left: 20px; }
+  .indicators li { color: #555; font-size: 14px; margin-bottom: 6px; }
+  .footer { background: #f9f9f9; padding: 20px 32px; font-size: 12px; color: #999; border-top: 1px solid #eee; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>FRAUD ALERT — Application Blocked</h1>
+    <span class="badge">BFSI Intent Firewall</span>
+  </div>
+  <div class="body">
+    <p style="color:#c0392b; font-weight:bold; font-size:15px;">
+      A loan application has been automatically BLOCKED due to critical fraud risk signals.
+    </p>
+    <div class="grid">
+      <div class="field"><div class="label">Application ID</div><div class="value" th:text="${applicationId}"></div></div>
+      <div class="field"><div class="label">Timestamp</div><div class="value" th:text="${timestamp}"></div></div>
+      <div class="field"><div class="label">Applicant Name</div><div class="value" th:text="${applicantName}"></div></div>
+      <div class="field"><div class="label">Loan Amount</div><div class="value" th:text="${loanAmount}"></div></div>
+      <div class="field"><div class="label">Detected Intent</div><div class="value" th:text="${intent}"></div></div>
+      <div class="field"><div class="label">Policy Rule Triggered</div><div class="value" th:text="${policyRule}"></div></div>
+    </div>
+    <div class="risk-box">
+      <div class="label">AI Risk Score</div>
+      <div class="risk-score" th:text="${riskScore}"></div>
+      <div style="color:#c0392b; font-weight:bold; text-transform:uppercase;" th:text="${riskLevel + ' RISK'}"></div>
+    </div>
+    <div class="indicators">
+      <h3>Fraud Indicators Detected</h3>
+      <ul>
+        <li th:each="indicator : ${fraudIndicators}" th:text="${indicator}"></li>
+      </ul>
+    </div>
+    <div class="field">
+      <div class="label">Decision Reason</div>
+      <div class="value" th:text="${reason}"></div>
+    </div>
+    <hr style="border:none;border-top:1px solid #eee;margin:24px 0;">
+    <p style="font-size:13px;color:#666;">
+      Action taken: Application permanently rejected. Customer flagged in behavioral risk system.
+      Please review in the fraud management portal.
+    </p>
+  </div>
+  <div class="footer">
+    BFSI Intent Firewall &bull; Automated Fraud Detection &bull; Do not reply to this email
+  </div>
+</div>
+</body>
+</html>
